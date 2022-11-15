@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Post # The dot before models means current directory or current application
 from django.utils import timezone
+
 
 # A view is a place where we put the "logic" of our application. 
 # "View" supposed to connect models and templates
@@ -10,4 +11,9 @@ def post_list(request):
     return render(request, 'blog/post_list.html', {'posts': posts})
     # 'request' is everything we receive from the user via the Internet.
     # the last parameter {} is a place in which we can add some things for the template to use.
-    
+
+def post_detail(request, pk):
+    Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post_detail.html', context={'post': post})
+
